@@ -1,4 +1,4 @@
-const deviceService = require('../services/device_service.js');
+const deviceService = require('../services/device.js');
 const db = require('../db.js');
 
 

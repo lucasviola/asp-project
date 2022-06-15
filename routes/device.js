@@ -1,4 +1,4 @@
-const deviceService = require('../services/device_service.js');
+const deviceService = require('../services/device.js');
 
 module.exports = (app) => {
     app.get("/device", async (req, res) => {
@@ -11,7 +11,7 @@ module.exports = (app) => {
             })
             .catch(err => {
                 console.log("An error occurred: ", err)
-                res.status(500).send({error:"error"})
+                res.status(500).send({error:err})
             });
     });
 }

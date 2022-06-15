@@ -6,7 +6,7 @@ const port = 8084;
 app.use(bodyParser.urlencoded({ extended: true }));
 
 require("./routes/main")(app);
-require("./routes/device_controller")(app);
+require("./routes/device")(app);
 
 app.set("views", __dirname + "/views");
 app.set("view engine", "ejs");
