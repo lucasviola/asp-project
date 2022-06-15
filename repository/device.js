@@ -6,4 +6,10 @@ const findAllDevices = async () => {
         .catch(err => err);
 }
 
-module.exports = {findAllDevices};
+const findById = async (deviceId) => {
+    return db.selectDeviceById(deviceId)
+        .then(result => result)
+        .catch(err => err);
+}
+
+module.exports = {findAllDevices, findById};

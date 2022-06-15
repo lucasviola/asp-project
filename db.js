@@ -17,10 +17,16 @@ let connect = async () => {
     return connection;
 }
 
-let selectDevices = async () => {
+const selectDevices = async () => {
     const conn = await connect();
     const [rows] = await conn.query('SELECT * FROM device;');
     return rows;
 }
 
-module.exports = {selectDevices}
+const selectDeviceById = async (deviceId) => {
+    const conn = await connect();
+    const [rows] = await conn.query('SELECT * FROM device WHERE id = ?;', deviceId);
+    return rows;
+}
+
+module.exports = {selectDevices, selectDeviceById}

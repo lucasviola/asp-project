@@ -14,4 +14,19 @@ module.exports = (app) => {
                 res.status(500).send({error:err})
             });
     });
+    app.get("/device/:id", async (req, res) => {
+        const deviceId = req.param('id');
+
+        console.log("Retrieving device with id: ", deviceId);
+
+        return deviceService.getDeviceById(deviceId)
+            .then(device => {
+                console.log("Succesfully retrieved device with id: ", deviceId)
+                res.status(202).send({deviceList: device})
+            })
+            .catch(err => {
+                console.log("An error occurred: ", err)
+                res.status(500).send({error:err})
+            });
+    });
 }
