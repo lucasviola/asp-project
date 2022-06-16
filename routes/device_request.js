@@ -1,9 +1,11 @@
 module.exports =
     class Device {
-        constructor(deviceName, deviceType, displayPicture) {
+
+        constructor(deviceName, deviceType, displayPicture, controlInformation) {
             this._deviceName = deviceName;
             this._deviceType = deviceType;
             this._displayPicture = displayPicture;
+            this._controlInformation = controlInformation;
         }
 
         get displayPicture() {
@@ -15,6 +17,9 @@ module.exports =
         get deviceName() {
             return this._deviceName;
         }
+        get controlInformation() {
+            return this._controlInformation;
+        }
         set displayPicture(value) {
             this._displayPicture = value;
         }
@@ -23,6 +28,9 @@ module.exports =
         }
         set deviceName(value) {
             this._deviceName = value;
+        }
+        set controlInformation(value) {
+            this._controlInformation = value;
         }
     };
 

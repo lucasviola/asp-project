@@ -27,5 +27,14 @@ const insertDevice = async (device) => {
         .catch(err => console.error("An error happened when saving an new device. Error: ", err));
 }
 
+const updateDevice = async (modifiedDevice, deviceId) => {
+    return deviceRepository.updateDevice(modifiedDevice, deviceId)
+        .then(device => {
+            console.log("Device updated on database:", device)
+            return device;
+        })
+        .catch(err => console.error("An error happened when updating an existing device. Error: ", err));
+}
 
-module.exports = {getAllDevices, getDeviceById, insertDevice};
+
+module.exports = {getAllDevices, getDeviceById, insertDevice, updateDevice};

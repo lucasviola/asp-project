@@ -46,4 +46,20 @@ const insertDevice = async (device) => {
     return selectDeviceById(rows.insertId);
 }
 
-module.exports = {selectDevices, selectDeviceById, insertDevice}
+const updateDevice = async (modifiedDevice, deviceId) => {
+    const conn = await connect();
+
+    //TODO: Refactor, this should be extracted to another function and validated inside the service,
+    // the object device should already get in with the needed attributes
+    const [deviceType] = await conn.query('SELECT id FROM device_type WHERE type_name = ?', modifiedDevice.deviceType);
+    const deviceTypeId = deviceType[0].id;
+
+    const [rows] = await conn.execute('UPDATE device SET device_name = ?, device_type = ?, display_picture = ?, control_information = ? WHERE id = ?;',
+        [modifiedDevice.deviceName, deviceTypeId, modifiedDevice.displayPicture,
+            modifiedDevice.controlInformation, deviceId]);
+
+    const updatedDevice =  await selectDeviceById(deviceId);
+    return updatedDevice
+}
+
+module.exports = {selectDevices, selectDeviceById, insertDevice, updateDevice}

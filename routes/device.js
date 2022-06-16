@@ -8,7 +8,7 @@ module.exports = (app) => {
         return deviceService.getAllDevices()
             .then(devices => {
                 console.log("Succesfully retrieved all devices: ", devices)
-                res.status(202).send({deviceList: devices})
+                res.status(200).send({deviceList: devices})
             })
             .catch(err => {
                 console.log("An error occurred: ", err)
@@ -23,7 +23,7 @@ module.exports = (app) => {
         return deviceService.getDeviceById(deviceId)
             .then(device => {
                 console.log("Succesfully retrieved device with id: ", deviceId)
-                res.status(202).send({deviceList: device})
+                res.status(200).send({deviceList: device})
             })
             .catch(err => {
                 console.log("An error occurred: ", err)
@@ -40,6 +40,25 @@ module.exports = (app) => {
             .then(device => {
                 console.log("Succesfully added new device: ", device.deviceType)
                 res.status(201).send({deviceList: device})
+            })
+            .catch(err => {
+                console.log("An error occurred: ", err)
+                res.status(500).send({error:err})
+            });
+    });
+
+    app.patch("/device/:id", async (req, res) => {
+        const {deviceName, deviceType, displayPicture, controlInformation} = req.body;
+
+        const device = new Device(deviceName, deviceType, displayPicture, controlInformation);
+        const deviceId = req.param('id')
+
+        console.log("Updating device information. Device Id: ", deviceId);
+
+        return deviceService.updateDevice(device, deviceId)
+            .then(device => {
+                console.log("Succesfully updated device: ", device)
+                res.status(200).send({deviceList: device})
             })
             .catch(err => {
                 console.log("An error occurred: ", err)
