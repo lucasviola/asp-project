@@ -24,4 +24,10 @@ const updateDevice = async (modifiedDevice, deviceId) => {
         .catch(err => err);
 }
 
-module.exports = {findAllDevices, findById, insertDevice, updateDevice};
+const deleteDevice = async (deviceId) => {
+    return db.deleteDevice(deviceId)
+        .then(result => result)
+        .catch(err => err);
+}
+
+module.exports = {findAllDevices, findById, insertDevice, updateDevice, deleteDevice};

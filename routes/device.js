@@ -65,4 +65,20 @@ module.exports = (app) => {
                 res.status(500).send({error:err})
             });
     });
+
+    app.delete("/device/:id", async (req, res) => {
+        const deviceId = req.param('id');
+
+        console.log("Deleting device with id: ", deviceId);
+
+        return deviceService.deleteDevice(deviceId)
+            .then(device => {
+                console.log("Succesfully deleted device with id: ", deviceId)
+                res.status(200).send();
+            })
+            .catch(err => {
+                console.log("An error occurred: ", err)
+                res.status(500).send({error:err})
+            });
+    });
 }

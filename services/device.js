@@ -36,5 +36,24 @@ const updateDevice = async (modifiedDevice, deviceId) => {
         .catch(err => console.error("An error happened when updating an existing device. Error: ", err));
 }
 
+const deleteDevice = async (deviceId) => {
 
-module.exports = {getAllDevices, getDeviceById, insertDevice, updateDevice};
+    return await deviceRepository.findById(deviceId)
+        .then(() => {
+            return deviceRepository.deleteDevice(deviceId)
+                .then(result => {
+                    console.log("Result from delete operation: ", result)
+                    return result;
+                }).catch(err => {
+                    console.error("An error happened when deleting an existing device. Error: ", err)
+                    return err;
+                });
+
+        }).catch(err => {
+            console.error("An error happened when deleting an existing device. Error: ", err)
+            return err;
+        });
+}
+
+
+module.exports = {getAllDevices, getDeviceById, insertDevice, updateDevice, deleteDevice};

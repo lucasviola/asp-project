@@ -25,8 +25,12 @@ const selectDevices = async () => {
 
 const selectDeviceById = async (deviceId) => {
     const conn = await connect();
-    const [rows] = await conn.query('SELECT * FROM device WHERE id = ?;', deviceId);
-    return rows;
+    return conn.query('SELECT * FROM device WHERE id = ?;', deviceId)
+        .then(row => {
+            const [result] = row;
+            return result;
+        })
+        .catch(err => err);
 }
 
 const insertDevice = async (device) => {
@@ -54,7 +58,7 @@ const updateDevice = async (modifiedDevice, deviceId) => {
     const [deviceType] = await conn.query('SELECT id FROM device_type WHERE type_name = ?', modifiedDevice.deviceType);
     const deviceTypeId = deviceType[0].id;
 
-    const [rows] = await conn.execute('UPDATE device SET device_name = ?, device_type = ?, display_picture = ?, control_information = ? WHERE id = ?;',
+    await conn.execute('UPDATE device SET device_name = ?, device_type = ?, display_picture = ?, control_information = ? WHERE id = ?;',
         [modifiedDevice.deviceName, deviceTypeId, modifiedDevice.displayPicture,
             modifiedDevice.controlInformation, deviceId]);
 
@@ -62,4 +66,11 @@ const updateDevice = async (modifiedDevice, deviceId) => {
     return updatedDevice
 }
 
-module.exports = {selectDevices, selectDeviceById, insertDevice, updateDevice}
+const deleteDevice = async (deviceId) => {
+    const conn = await connect();
+    return await conn.query('DELETE FROM device WHERE id = ?;', deviceId)
+        .then(rows => [rows])
+        .catch(err => err)
+}
+
+module.exports = {selectDevices, selectDeviceById, insertDevice, updateDevice, deleteDevice}
