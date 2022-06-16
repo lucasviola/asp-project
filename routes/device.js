@@ -2,6 +2,11 @@ const deviceService = require('../services/device.js');
 const Device = require('../routes/device_request.js');
 
 module.exports = (app) => {
+    /*
+    * GET /device/
+    * Retrieves all devices from database
+    * Return status code: 200 OK
+    * */
     app.get("/device", async (req, res) => {
         console.log("Retrieving all devices: ");
 
@@ -15,6 +20,12 @@ module.exports = (app) => {
                 res.status(500).send({error:err})
             });
     });
+    /*
+    * GET /device/:id
+    * request parameter: id from the device
+    * Retrieves a single device based on an id
+    * Return status code: 200 OK
+    * */
     app.get("/device/:id", async (req, res) => {
         const deviceId = req.param('id');
 
@@ -30,6 +41,14 @@ module.exports = (app) => {
                 res.status(500).send({error:err})
             });
     });
+
+    /*
+    * POST /device/
+    * Body payload: a device
+    * Adds a new device to the database
+    * Returns the newly added device
+    * Return status code: 201 Created
+    * */
     app.post("/device/", async (req, res) => {
         const {deviceName, deviceType, displayPicture} = req.body;
         const device = new Device(deviceName, deviceType, displayPicture);
@@ -47,6 +66,13 @@ module.exports = (app) => {
             });
     });
 
+    /*
+    * PATCH /device/:id
+    * Request Parameter: id of a previously added device
+    * Body payload: the whole device information with its fields already modified
+    * Returns the newly updated device
+    * Return status code: 200 OK
+    * */
     app.patch("/device/:id", async (req, res) => {
         const {deviceName, deviceType, displayPicture, controlInformation} = req.body;
 
@@ -66,13 +92,18 @@ module.exports = (app) => {
             });
     });
 
+    /*
+    * DELETE /device/:id
+    * Request Parameter: id of a previously added device
+    * Return status code: 200 OK
+    * */
     app.delete("/device/:id", async (req, res) => {
         const deviceId = req.param('id');
 
         console.log("Deleting device with id: ", deviceId);
 
         return deviceService.deleteDevice(deviceId)
-            .then(device => {
+            .then(() => {
                 console.log("Succesfully deleted device with id: ", deviceId)
                 res.status(200).send();
             })
