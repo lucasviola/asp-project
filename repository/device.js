@@ -12,4 +12,10 @@ const findById = async (deviceId) => {
         .catch(err => err);
 }
 
-module.exports = {findAllDevices, findById};
+const insertDevice = async (device) => {
+    return db.insertDevice(device)
+        .then(result => result)
+        .catch(err => err);
+}
+
+module.exports = {findAllDevices, findById, insertDevice};

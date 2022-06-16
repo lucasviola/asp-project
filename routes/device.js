@@ -1,4 +1,5 @@
 const deviceService = require('../services/device.js');
+const Device = require('../routes/device_request.js');
 
 module.exports = (app) => {
     app.get("/device", async (req, res) => {
@@ -23,6 +24,22 @@ module.exports = (app) => {
             .then(device => {
                 console.log("Succesfully retrieved device with id: ", deviceId)
                 res.status(202).send({deviceList: device})
+            })
+            .catch(err => {
+                console.log("An error occurred: ", err)
+                res.status(500).send({error:err})
+            });
+    });
+    app.post("/device/", async (req, res) => {
+        const {deviceName, deviceType, displayPicture} = req.body;
+        const device = new Device(deviceName, deviceType, displayPicture);
+
+        console.log("Inserting new device. Device type: ", device.deviceType);
+
+        return deviceService.insertDevice(device)
+            .then(device => {
+                console.log("Succesfully added new device: ", device.deviceType)
+                res.status(201).send({deviceList: device})
             })
             .catch(err => {
                 console.log("An error occurred: ", err)

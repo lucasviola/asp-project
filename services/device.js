@@ -18,4 +18,14 @@ const getDeviceById = async (deviceId) => {
         .catch(err => console.error("An error happened when retrieving devices. Error: ", err));
 }
 
-module.exports = {getAllDevices, getDeviceById};
+const insertDevice = async (device) => {
+    return deviceRepository.insertDevice(device)
+        .then(device => {
+            console.log("Device saved on database:", device)
+            return device;
+        })
+        .catch(err => console.error("An error happened when saving an new device. Error: ", err));
+}
+
+
+module.exports = {getAllDevices, getDeviceById, insertDevice};
