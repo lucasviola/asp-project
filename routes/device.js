@@ -12,7 +12,7 @@ module.exports = (app) => {
 
         return deviceService.getAllDevices()
             .then(devices => {
-                console.log("Succesfully retrieved all devices: ", devices)
+                console.log("Succesfully retrieved all devices")
                 res.status(200).send({deviceList: devices})
             })
             .catch(err => {

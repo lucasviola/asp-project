@@ -35,15 +35,29 @@
 </nav>
 <div class="card">
     <% device = device[0] %>
-    <img src="..." class="card-img-top" alt="<%- device.display_picture %>">
-    <div class="card-body">
-        <h5 class="card-title">Device Name: <%- device.device_name %></h5>
-        <p class="card-text"></p>
-        <a href="/configure/<%- deviceId %>" class="btn btn-primary">Save configuration</a>
-    </div>
+    <form method="GET" action="/device/update">
+        <div class="mb-3">
+            <label for="deviceName" class="form-label">Type new device name below</label>
+            <input type="text" class="form-control" id="deviceName" name="deviceName" value="<%- device.device_name %>">
+        </div>
+        <div class="mb-3">
+            <label for="deviceType" class="form-label">Select new device type below</label>
+            <select id="deviceType" class="form-select" name="deviceType">
+                <option value="SMART_LIGHT">Smart Light</option>
+                <option value="SMART_LIGHT_SWITCH">Smart Light Switch</option>
+                <option value="SECURITY_CAMERA">Security Camera</option>
+                <option value="SMART_POWERPOINT">Smart Powerpoint</option>
+                <option value="SMART_LOCKER">Smart Locker</option>
+            </select>
+        </div>
+        <div>
+            <label for="formFileLg" class="form-label">Upload image below</label>
+            <input class="form-control form-control-lg" id="formFileLg" type="file">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <input type="hidden" class="form-control" id="deviceId" name="deviceId" value="<%- device.ID %>">
+    </form>
 </div>
-<p>Device: <%= JSON.stringify(device) %></p>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
 </body>
 </html>

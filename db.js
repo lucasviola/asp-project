@@ -9,7 +9,7 @@ let connect = async () => {
         return global.connection;
     }
 
-    const connection = await mysql.createConnection("mysql://$user@localhost:3306/mySmartHome");
+    const connection = await mysql.createConnection("mysql://lucas:l33tph33r@localhost:3306/mySmartHome");
 
     console.log("Connected succesfully");
 

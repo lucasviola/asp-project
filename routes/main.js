@@ -24,6 +24,33 @@ module.exports = function (app) {
         devicePromise.then((device) => res.render("configure.html", {device}));
     });
 
+    app.get("/device/update", function (req, res) {
+        console.log("Adding new device.");
+
+        const deviceName = req.query.deviceName;
+        const deviceType = req.query.deviceType;
+        const id = req.query.deviceId;
+
+        console.log("Device name: ", deviceName);
+        console.log("Device type: ", deviceType)
+
+        const device = {
+            'deviceName': deviceName,
+            'deviceType': deviceType,
+            'displayPicture': 'https://static.thenounproject.com/png/340318-200.png',
+            'controlInformation': {}
+        }
+
+        console.log("Updating device with id: ", id);
+        deviceController.updateDevice(device, id)
+            .then(() => {
+                console.log("Devide updated succesfully! ", id);
+
+                deviceController.getAllDevices()
+                    .then((devices) => res.render("index.html", {devices}));
+            });
+    });
+
     app.get("/delete/:id", function (req, res) {
         const id = req.params['id'];
         console.log("Deleting device with id: ", id);
