@@ -4,7 +4,7 @@ module.exports = function (app) {
     app.get("/", function (req, res) {
 
         const devicesPromise = deviceController.getAllDevices();
-        console.log("Retrieving all devices: ", devicesPromise);
+        console.log("Retrieving all devices");
 
         devicesPromise.then((devices) => res.render("index.html", {devices}));
     });
@@ -31,6 +31,35 @@ module.exports = function (app) {
         deviceController.deleteDevice(id)
             .then(() => {
                 console.log("Device deleted succesfully");
+
+                deviceController.getAllDevices()
+                    .then((devices) => res.render("index.html", {devices}));
+            });
+    });
+
+    app.get("/device/new", function (req, res) {
+        console.log("Loading add device page");
+
+        res.render("add-device.html");
+    });
+    app.get("/device/add/", function (req, res) {
+        console.log("Adding new device.");
+
+        const deviceName = req.query.deviceName;
+        const deviceType = req.query.deviceType;
+
+        console.log("Device name: ", deviceName);
+        console.log("Device type: ", deviceType)
+
+        const device = {
+            'deviceName': deviceName,
+            'deviceType': deviceType,
+            'displayPicture': 'https://static.thenounproject.com/png/340318-200.png'
+        }
+
+        deviceController.insertDevice(device)
+            .then(() => {
+                console.log("Device registered succesfully!");
 
                 deviceController.getAllDevices()
                     .then((devices) => res.render("index.html", {devices}));
