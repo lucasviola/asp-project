@@ -7,11 +7,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json()) // for parsing application/json
 
 require("./routes/main")(app);
-require("./routes/device")(app);
 
 app.set("views", __dirname + "/views");
 app.set("view engine", "ejs");
 
 app.engine("html", require("ejs").renderFile);
 
-app.listen(port, () => console.log(`MySmartHome app listening on port ${port}!`));
+app.listen(port, () => console.log(`Listening on port: ${port}!`));
