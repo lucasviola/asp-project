@@ -4,7 +4,7 @@ const callApiAndConvert = async (text) => {
     const encodedParams = new URLSearchParams();
 
     encodedParams.append("content", text);
-    encodedParams.append("response_type", "html");
+    encodedParams.append("response_type", "page");
     encodedParams.append("request_type", "html");
     encodedParams.append("fixation", "1");
     encodedParams.append("saccade", "10");
@@ -20,10 +20,13 @@ const callApiAndConvert = async (text) => {
         data: encodedParams
     };
 
-    return axios.request(options).then(function (response) {
-        console.log(response.data);
-    }).catch(function (error) {
-        console.error(error);
+    return axios.request(options)
+        .then(function (response) {
+            console.log(response.data);
+            return response.data;
+        }).catch(function (error) {
+            console.error(error);
+            return error;
     });
 }
 

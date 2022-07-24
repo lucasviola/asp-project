@@ -3,7 +3,7 @@ const bionicApiClient = require('../client/main.js');
 const convertText = async (text) => {
     return bionicApiClient.callApiAndConvert(text)
         .then(textWithBionic => {
-            console.log("Converted text:", textWithBionic)
+            console.log("Converted text:")
 
             return textWithBionic;
         })

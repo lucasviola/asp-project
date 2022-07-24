@@ -8,15 +8,20 @@ module.exports = function (app) {
         res.send({'status':'up'});
     });
 
-    app.post("/bionic-reader/convert", function (req, res) {
-        const text = req.body.text;
+    app.get("/bionic-reader/convert", function (req, res) {
+        const text = req.params['text'];
 
         console.log("Text to be converted: ", text);
 
-        const textWithBionicReading = bionicReaderService.convertText(text);
+        bionicReaderService.convertText(text)
+            .then(textWithBionicReading => {
+                console.log("Text with Bionic Reading: ", textWithBionicReading);
+                res.send(textWithBionicReading);
+            })
+            .catch(error => {
+                console.log('Error: ', error);
 
-        console.log("Text with Bionic Reading: ", textWithBionicReading);
-
-        res.send({text: textWithBionicReading});
+                res.render(error);
+            });
     });
 }
