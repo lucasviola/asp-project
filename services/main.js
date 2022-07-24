@@ -1,15 +1,13 @@
+const bionicApiClient = require('../client/main.js');
 
 const convertText = async (text) => {
+    return bionicApiClient.callApiAndConvert(text)
+        .then(textWithBionic => {
+            console.log("Converted text:", textWithBionic)
 
-    const convertedText = text;
-
-    return convertedText
-        .then(translatedText => {
-            console.log("Translated text:", translatedText)
-
-            return translatedText;
+            return textWithBionic;
         })
-        .catch(err => console.error("An error happened when translating the text. Error:", err));
+        .catch(err => console.error("An error happened when converting the text. Error:", err));
 }
 
 module.exports = {convertText};
